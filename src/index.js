@@ -1,14 +1,44 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.scss";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+import Expenses from "./routes/expenses";
+import Invoices from "./routes/invoices";
+import Invoice from "./routes/invoice";
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+  <BrowserRouter>
+    <React.StrictMode>
+      <Routes>
+        <Route path="/" element={<App />}>
+          <Route path="expenses" element={<Expenses />} />
+          <Route path="invoices" element={<Invoices />}>
+            <Route
+              index
+              element={
+                <main style={{ padding: "2rem" }}>
+                  <p>Select an invoice</p>
+                </main>
+              }
+            />
+            <Route path=":invoiceId" element={<Invoice />} />
+          </Route>
+          <Route
+            path="*"
+            element={
+              <main>
+                <p>There's nothing here!</p>
+              </main>
+            }
+          />
+        </Route>
+      </Routes>
+    </React.StrictMode>
+  </BrowserRouter>
 );
 
 // If you want to start measuring performance in your app, pass a function
